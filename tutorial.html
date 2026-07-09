@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2link：虚拟角色智能体教程</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #657184;
+      --line: #d8dee8;
+      --accent: #1877f2;
+      --accent-dark: #0f5ec2;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-end;
+      padding: 10px 0 22px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .intro {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .home {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+      background: #fff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .home:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .lesson {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .lesson-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .desc {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .tag {
+      flex: 0 0 auto;
+      height: 30px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #edf4ff;
+      color: var(--accent-dark);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111827;
+    }
+
+    .lesson-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 20px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .open {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .open:hover {
+      color: var(--accent-dark);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 720px) {
+      .wrap {
+        width: min(100% - 20px, 1120px);
+        padding: 18px 0 32px;
+      }
+
+      header,
+      .lesson-head,
+      .lesson-foot {
+        display: block;
+      }
+
+      .home {
+        margin-top: 14px;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-top: 12px;
+      }
+
+      .open {
+        display: inline-block;
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div>
+        <h1>2link：虚拟角色智能体教程</h1>
+        <p class="intro">按顺序看完这三个视频，就能完成基础使用、声音克隆和通话功能上手。</p>
+      </div>
+      <a class="home" href="/">返回应用</a>
+    </header>
+
+    <section class="list" aria-label="教程视频列表">
+      <article class="lesson">
+        <div class="lesson-head">
+          <div>
+            <h2>1. 基础使用教程</h2>
+            <p class="desc">创建和使用虚拟角色智能体的基础流程。</p>
+          </div>
+          <span class="tag">建议先看</span>
+        </div>
+        <video controls preload="metadata" playsinline src="/tutorial-videos/%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.mp4"></video>
+        <div class="lesson-foot">
+          <span>如果网页播放不流畅，可以单独打开视频。</span>
+          <a class="open" href="/tutorial-videos/%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.mp4" target="_blank" rel="noreferrer">新窗口打开</a>
+        </div>
+      </article>
+
+      <article class="lesson">
+        <div class="lesson-head">
+          <div>
+            <h2>2. 声音克隆教程</h2>
+            <p class="desc">演示如何上传声音素材，并生成角色专属音色。</p>
+          </div>
+          <span class="tag">声音设置</span>
+        </div>
+        <video controls preload="metadata" playsinline src="/tutorial-videos/%E5%A3%B0%E9%9F%B3%E5%85%8B%E9%9A%86%E6%95%99%E7%A8%8B.mp4"></video>
+        <div class="lesson-foot">
+          <span>建议在网络稳定时观看，避免上传或预览时中断。</span>
+          <a class="open" href="/tutorial-videos/%E5%A3%B0%E9%9F%B3%E5%85%8B%E9%9A%86%E6%95%99%E7%A8%8B.mp4" target="_blank" rel="noreferrer">新窗口打开</a>
+        </div>
+      </article>
+
+      <article class="lesson">
+        <div class="lesson-head">
+          <div>
+            <h2>3. 通话功能演示</h2>
+            <p class="desc">快速了解实时通话入口、连接和对话效果。</p>
+          </div>
+          <span class="tag">功能演示</span>
+        </div>
+        <video controls preload="metadata" playsinline src="/tutorial-videos/%E9%80%9A%E8%AF%9D%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA.mp4"></video>
+        <div class="lesson-foot">
+          <span>这个视频较短，适合用来快速确认通话体验。</span>
+          <a class="open" href="/tutorial-videos/%E9%80%9A%E8%AF%9D%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA.mp4" target="_blank" rel="noreferrer">新窗口打开</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

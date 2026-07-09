@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8faf8" />
+    <title>2link 虚拟角色智能体 - AI角色聊天、声音克隆与实时通话</title>
+    <meta name="description" content="2link 是面向普通用户的虚拟角色智能体工具，支持自定义AI角色、人设记忆、角色聊天、声音克隆、实时语音通话和角色图片生成。" />
+    <meta name="keywords" content="虚拟角色智能体,AI虚拟角色,AI角色聊天,AI陪伴,声音克隆,实时语音通话,虚拟女友,虚拟男友,角色智能体" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://role.walkingxiuxian.cn/index" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="2link 虚拟角色智能体" />
+    <meta property="og:title" content="2link 虚拟角色智能体" />
+    <meta property="og:description" content="创建你的专属AI虚拟角色，支持聊天、人设记忆、声音克隆、实时通话和角色图片生成。" />
+    <meta property="og:url" content="https://role.walkingxiuxian.cn/index" />
+    <meta property="og:image" content="https://role.walkingxiuxian.cn/assets/2link-product-preview.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="2link 虚拟角色智能体" />
+    <meta name="twitter:description" content="自定义AI角色，直接聊天、通话、克隆声音和生成角色图片。" />
+    <meta name="twitter:image" content="https://role.walkingxiuxian.cn/assets/2link-product-preview.png" />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f8faf8;
+        --panel: #fffefd;
+        --soft: #eef6f3;
+        --ink: #1f2528;
+        --muted: #627174;
+        --line: #dce5df;
+        --accent: #0f8b8d;
+        --accent-dark: #096466;
+        --warm: #f4efe6;
+        font-family: Inter, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.65;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        border-bottom: 1px solid rgba(220, 229, 223, 0.9);
+        background: rgba(248, 250, 248, 0.92);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav,
+      .section,
+      .hero-inner {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 64px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 900;
+      }
+
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .nav-links a,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+      }
+
+      .button {
+        border: 1px solid var(--accent);
+        color: #fff;
+        background: var(--accent);
+      }
+
+      .button.secondary {
+        color: var(--accent-dark);
+        background: #fff;
+      }
+
+      .hero {
+        min-height: 78vh;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(90deg, rgba(248, 250, 248, 0.96) 0%, rgba(248, 250, 248, 0.9) 44%, rgba(248, 250, 248, 0.52) 100%),
+          url("/assets/2link-product-preview.png") right center / min(48vw, 520px) auto no-repeat,
+          var(--bg);
+      }
+
+      .hero-inner {
+        padding: 72px 0 58px;
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--accent-dark);
+        font-weight: 900;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(38px, 6vw, 72px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .hero-copy {
+        max-width: 650px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: 20px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+      }
+
+      .support-line {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+        padding: 10px 14px;
+        border: 1px solid rgba(15, 139, 141, 0.28);
+        border-radius: 8px;
+        color: var(--accent-dark);
+        background: rgba(255, 255, 255, 0.82);
+        font-weight: 900;
+      }
+
+      .support-line strong {
+        color: var(--ink);
+        font-size: 18px;
+      }
+
+      .quick-facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 34px;
+      }
+
+      .quick-facts span {
+        padding: 7px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--accent-dark);
+        font-weight: 800;
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .section-title {
+        max-width: 760px;
+        margin-bottom: 28px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .section-title p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        min-height: 190px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+
+      .card p,
+      .faq p,
+      .step p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .band {
+        background: var(--soft);
+        border-block: 1px solid var(--line);
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .step {
+        padding: 20px;
+        border-left: 4px solid var(--accent);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .step b {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .compare ul {
+        margin: 12px 0 0;
+        padding-left: 20px;
+        color: var(--muted);
+      }
+
+      .faq-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .faq {
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .faq h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .cta {
+        padding: 48px;
+        border-radius: 8px;
+        background: var(--warm);
+      }
+
+      .cta p {
+        max-width: 700px;
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      footer {
+        padding: 28px 0;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+      }
+
+      @media (max-width: 840px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 12px 0;
+        }
+
+        .hero {
+          min-height: auto;
+          background:
+            linear-gradient(180deg, rgba(248, 250, 248, 0.96) 0%, rgba(248, 250, 248, 0.94) 100%),
+            url("/assets/2link-product-preview.png") center bottom / min(86vw, 460px) auto no-repeat,
+            var(--bg);
+        }
+
+        .hero-inner {
+          padding: 48px 0 420px;
+        }
+
+        .grid,
+        .steps,
+        .compare {
+          grid-template-columns: 1fr;
+        }
+
+        .cta {
+          padding: 28px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .nav,
+        .section,
+        .hero-inner {
+          width: min(100% - 22px, 1120px);
+        }
+
+        .nav-links {
+          width: 100%;
+        }
+
+        .nav-links a,
+        .button {
+          flex: 1 1 auto;
+        }
+
+        .hero-inner {
+          padding-bottom: 330px;
+        }
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "2link 虚拟角色智能体",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web",
+        "url": "https://role.walkingxiuxian.cn/index",
+        "description": "支持自定义AI角色、人设记忆、角色聊天、声音克隆、实时语音通话和角色图片生成的虚拟角色智能体工具。",
+        "offers": {
+          "@type": "Offer",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "2link 虚拟角色智能体可以做什么？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以创建专属AI虚拟角色，进行角色聊天、保存人设记忆、生成角色图片、克隆声音并进行实时语音通话。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "需要自己配置API吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Release版本面向普通用户，购买授权码后填写即可使用，不需要自己研究模型API、Key或Base URL。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "有没有教程？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "有，教程页包含基础使用、声音克隆和通话功能三个视频教程。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="/">
+          <span class="logo">AI</span>
+          <span>2link 虚拟角色智能体</span>
+        </a>
+        <div class="nav-links">
+          <a href="#features">功能</a>
+          <a href="#workflow">上手流程</a>
+          <a href="/tutorial">教程</a>
+          <a class="button" href="/">打开应用</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <p class="eyebrow">AI Virtual Companion Release</p>
+          <h1>2link 虚拟角色智能体</h1>
+          <p class="hero-copy">为你的故事、陪伴和创作场景创建专属AI角色。无需折腾模型配置，填写授权码即可使用聊天、人设记忆、声音克隆、实时通话和角色图片生成。</p>
+          <div class="hero-actions">
+            <a class="button" href="/">立即打开应用</a>
+            <a class="button secondary" href="/tutorial">查看使用教程</a>
+          </div>
+          <p class="support-line">客服 QQ 群 <strong>761894545</strong></p>
+          <div class="quick-facts" aria-label="产品特点">
+            <span>自定义角色</span>
+            <span>本地优先保存</span>
+            <span>声音克隆</span>
+            <span>实时语音通话</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="section-title">
+          <h2>一个页面完成角色创建、聊天和语音互动</h2>
+          <p>2link 面向想快速拥有虚拟角色智能体的用户，把复杂的模型调用、角色配置和工具能力集中到一个轻量网页里。</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <strong>AI角色聊天</strong>
+            <p>设置角色名字、人设、关系、说话风格和开场白，让角色以稳定口吻与你对话。</p>
+          </article>
+          <article class="card">
+            <strong>人设记忆与资料库</strong>
+            <p>导入设定、聊天记录或角色资料，让智能体在长期互动中保持更一致的背景和关系。</p>
+          </article>
+          <article class="card">
+            <strong>声音克隆</strong>
+            <p>上传声音样本，为角色生成专属音色，用于朗读回复和更自然的语音体验。</p>
+          </article>
+          <article class="card">
+            <strong>实时语音通话</strong>
+            <p>通过网页直接与角色语音对话，适合陪伴、剧情互动、口语练习和沉浸式角色扮演。</p>
+          </article>
+          <article class="card">
+            <strong>角色图片生成</strong>
+            <p>根据外貌描述或参考图生成角色形象，让虚拟角色不只停留在文字里。</p>
+          </article>
+          <article class="card">
+            <strong>本地优先保存</strong>
+            <p>角色、聊天和素材优先保存在当前浏览器，登录后可使用云备份恢复重要数据。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band" id="workflow">
+        <div class="section">
+          <div class="section-title">
+            <h2>不用研究 API，拿到授权码就能开始</h2>
+            <p>适合想直接使用虚拟角色智能体的人，也适合把角色聊天、AI陪伴和语音互动做成服务交付的人。</p>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <b>1. 打开应用</b>
+              <p>进入网页端，不需要安装复杂环境。</p>
+            </div>
+            <div class="step">
+              <b>2. 登录账号</b>
+              <p>绑定授权码后开启在线模型能力。</p>
+            </div>
+            <div class="step">
+              <b>3. 创建角色</b>
+              <p>填写人设、外貌、关系和说话风格。</p>
+            </div>
+            <div class="step">
+              <b>4. 开始聊天</b>
+              <p>文字、朗读、图片和通话按需使用。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <h2>Release 版更适合普通用户</h2>
+          <p>如果你不想注册模型平台、找 Key、填 Base URL 或处理报错，Release 版会更省心。</p>
+        </div>
+        <div class="compare">
+          <article class="card">
+            <strong>自己折腾</strong>
+            <ul>
+              <li>注册模型平台并申请 API Key</li>
+              <li>配置 Base URL、模型名和额度</li>
+              <li>自己处理报错、限流和兼容问题</li>
+              <li>图片、语音、通话能力需要分别接入</li>
+            </ul>
+          </article>
+          <article class="card">
+            <strong>使用 2link Release</strong>
+            <ul>
+              <li>填写授权码即可开始</li>
+              <li>聊天、图片、语音和通话集中在网页里</li>
+              <li>角色配置和本地数据自动保存</li>
+              <li>有基础使用、声音克隆和通话教程</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="section-title">
+          <h2>常见问题</h2>
+          <p>先看这里，能快速判断它是否适合你的使用场景。</p>
+        </div>
+        <div class="faq-list">
+          <article class="faq">
+            <h3>2link 虚拟角色智能体适合谁？</h3>
+            <p>适合想创建AI虚拟角色、AI陪伴对象、剧情角色、口语练习伙伴或内容创作角色的人。</p>
+          </article>
+          <article class="faq">
+            <h3>可以自定义角色吗？</h3>
+            <p>可以。你可以设置名字、头像、人设、关系定位、说话风格、外貌特征、开场白和快捷问题。</p>
+          </article>
+          <article class="faq">
+            <h3>教程在哪里？</h3>
+            <p>教程页在 <a href="/tutorial">/tutorial</a>，包含基础使用教程、声音克隆教程和通话功能演示。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="cta">
+          <h2>开始创建你的专属虚拟角色</h2>
+          <p>从一个名字和一句开场白开始，逐步补全人设、声音和形象。角色会在你的浏览器里保存，方便下次继续。</p>
+          <p><strong>客服 QQ 群：761894545</strong></p>
+          <div class="hero-actions">
+            <a class="button" href="/">打开应用</a>
+            <a class="button secondary" href="/tutorial">先看教程</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="section" style="padding: 0;">
+        <p>© 2026 2link 虚拟角色智能体 · <a href="/tutorial">教程</a> · <a href="/">应用入口</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
