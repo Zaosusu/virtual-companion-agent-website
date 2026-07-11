@@ -8,17 +8,17 @@
     <meta name="description" content="2link 是面向普通用户的虚拟角色智能体工具，支持自定义AI角色、人设记忆、角色聊天、声音克隆、实时语音通话和角色图片生成。" />
     <meta name="keywords" content="虚拟角色智能体,AI虚拟角色,AI角色聊天,AI陪伴,声音克隆,实时语音通话,虚拟女友,虚拟男友,角色智能体" />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://role.walkingxiuxian.cn/index" />
+    <link rel="canonical" href="https://2link.walkingxiuxian.cn/index" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="2link 虚拟角色智能体" />
     <meta property="og:title" content="2link 虚拟角色智能体" />
     <meta property="og:description" content="创建你的专属AI虚拟角色，支持聊天、人设记忆、声音克隆、实时通话和角色图片生成。" />
-    <meta property="og:url" content="https://role.walkingxiuxian.cn/index" />
-    <meta property="og:image" content="https://role.walkingxiuxian.cn/assets/2link-product-preview.png" />
+    <meta property="og:url" content="https://2link.walkingxiuxian.cn/index" />
+    <meta property="og:image" content="https://2link.walkingxiuxian.cn/assets/2link-product-preview.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="2link 虚拟角色智能体" />
     <meta name="twitter:description" content="自定义AI角色，直接聊天、通话、克隆声音和生成角色图片。" />
-    <meta name="twitter:image" content="https://role.walkingxiuxian.cn/assets/2link-product-preview.png" />
+    <meta name="twitter:image" content="https://2link.walkingxiuxian.cn/assets/2link-product-preview.png" />
     <style>
       :root {
         color-scheme: light;
@@ -125,6 +125,19 @@
         background: var(--accent);
       }
 
+      .nav-links a.nav-hot {
+        color: #fff;
+        background: var(--accent-dark);
+      }
+
+      .button.hot {
+        min-height: 48px;
+        padding: 0 20px;
+        border-color: #0b6f70;
+        background: #0b6f70;
+        font-size: 18px;
+      }
+
       .button.secondary {
         color: var(--accent-dark);
         background: #fff;
@@ -166,6 +179,24 @@
         font-size: 20px;
       }
 
+      .migrator-highlight {
+        max-width: 720px;
+        margin-top: 22px;
+        padding: 18px 20px;
+        border: 2px solid rgba(15, 139, 141, 0.34);
+        border-left: 7px solid var(--accent);
+        border-radius: 8px;
+        color: var(--accent-dark);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 14px 36px rgba(15, 139, 141, 0.12);
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .migrator-highlight span {
+        color: var(--ink);
+      }
+
       .hero-actions {
         display: flex;
         gap: 12px;
@@ -189,6 +220,27 @@
       .support-line strong {
         color: var(--ink);
         font-size: 18px;
+      }
+
+      .license-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 0 24px;
+      }
+
+      .license-contact a,
+      .license-contact span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 13px;
+        border: 1px solid rgba(15, 139, 141, 0.24);
+        border-radius: 8px;
+        color: var(--accent-dark);
+        background: rgba(255, 255, 255, 0.76);
+        font-weight: 800;
+        text-decoration: none;
       }
 
       .quick-facts {
@@ -384,7 +436,7 @@
         "name": "2link 虚拟角色智能体",
         "applicationCategory": "LifestyleApplication",
         "operatingSystem": "Web",
-        "url": "https://role.walkingxiuxian.cn/index",
+        "url": "https://2link.walkingxiuxian.cn/index",
         "description": "支持自定义AI角色、人设记忆、角色聊天、声音克隆、实时语音通话和角色图片生成的虚拟角色智能体工具。",
         "offers": {
           "@type": "Offer",
@@ -433,6 +485,7 @@
           <span>2link 虚拟角色智能体</span>
         </a>
         <div class="nav-links">
+          <a class="nav-hot" href="/doubao-migrator">豆包一键迁移</a>
           <a href="#features">功能</a>
           <a href="#workflow">上手流程</a>
           <a href="/tutorial">教程</a>
@@ -444,19 +497,32 @@
     <main>
       <section class="hero">
         <div class="hero-inner">
-          <p class="eyebrow">AI Virtual Companion Release</p>
+          <p class="eyebrow">王炸功能：豆包聊天一键迁移</p>
           <h1>2link 虚拟角色智能体</h1>
           <p class="hero-copy">为你的故事、陪伴和创作场景创建专属AI角色。无需折腾模型配置，填写授权码即可使用聊天、人设记忆、声音克隆、实时通话和角色图片生成。</p>
+          <p class="migrator-highlight">已有豆包聊天不用丢：<span>安装迁移助手，一键把历史聊天和角色上下文接到 2link。</span></p>
           <div class="hero-actions">
-            <a class="button" href="/">立即打开应用</a>
+            <a class="button hot" href="/doubao-migrator">豆包聊天一键迁移</a>
+            <a class="button secondary" href="/">立即打开应用</a>
             <a class="button secondary" href="/tutorial">查看使用教程</a>
           </div>
-          <p class="support-line">客服 QQ 群 <strong>761894545</strong></p>
           <div class="quick-facts" aria-label="产品特点">
             <span>自定义角色</span>
             <span>本地优先保存</span>
+            <span>豆包记录迁移</span>
             <span>声音克隆</span>
             <span>实时语音通话</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="cta">
+          <h2>需要迁移豆包聊天记录？</h2>
+          <p>已购买并绑定授权码的 2link 用户，可以安装豆包聊天迁移助手，把浏览器里已登录豆包的聊天内容同步到自己的 2link 账号数据库。</p>
+          <div class="hero-actions">
+            <a class="button" href="/doubao-migrator">进入豆包迁移助手</a>
+            <a class="button secondary" href="/doubao-migrator#install">查看插件安装教程</a>
           </div>
         </div>
       </section>
@@ -499,6 +565,10 @@
           <div class="section-title">
             <h2>不用研究 API，拿到授权码就能开始</h2>
             <p>适合想直接使用虚拟角色智能体的人，也适合把角色聊天、AI陪伴和语音互动做成服务交付的人。</p>
+          </div>
+          <div class="license-contact" aria-label="授权码获取方式">
+            <span>客服 QQ 群：761894545</span>
+            <a href="https://m.tb.cn/h.RzEnM7m?tk=LR94gLXYH0b" target="_blank" rel="noopener noreferrer">闲鱼购买授权码</a>
           </div>
           <div class="steps">
             <div class="step">
@@ -573,7 +643,6 @@
         <div class="cta">
           <h2>开始创建你的专属虚拟角色</h2>
           <p>从一个名字和一句开场白开始，逐步补全人设、声音和形象。角色会在你的浏览器里保存，方便下次继续。</p>
-          <p><strong>客服 QQ 群：761894545</strong></p>
           <div class="hero-actions">
             <a class="button" href="/">打开应用</a>
             <a class="button secondary" href="/tutorial">先看教程</a>

@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>豆包聊天迁移助手 - 2link</title>
+    <meta name="description" content="安装 2link 豆包聊天迁移助手，把浏览器里已登录豆包的聊天记录同步到已绑定授权码的 2link 账号数据库。" />
+    <link rel="canonical" href="https://2link.walkingxiuxian.cn/doubao-migrator" />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f8faf8;
+        --panel: #fffefd;
+        --ink: #1f2528;
+        --muted: #627174;
+        --line: #dce5df;
+        --accent: #0f8b8d;
+        --accent-dark: #096466;
+        --soft: #eef6f3;
+        --warm: #fff7e8;
+        --danger-soft: #fff1f0;
+        --danger: #9f1d1d;
+        font-family: Inter, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.7;
+      }
+      a { color: inherit; }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        border-bottom: 1px solid rgba(220, 229, 223, 0.9);
+        background: rgba(248, 250, 248, 0.94);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav,
+      .section,
+      .hero-inner {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+        gap: 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 900;
+      }
+
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .button,
+      .nav-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .nav-links a:not(.button) { color: var(--muted); }
+
+      .button {
+        border: 1px solid var(--accent);
+        color: #fff;
+        background: var(--accent);
+      }
+
+      .nav-links .button {
+        color: #fff;
+      }
+
+      .button.secondary {
+        color: var(--accent-dark);
+        background: #fff;
+      }
+
+      .hero {
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(90deg, rgba(238, 246, 243, 0.98) 0%, rgba(238, 246, 243, 0.92) 48%, rgba(238, 246, 243, 0.62) 100%),
+          url("/assets/2link-product-preview.png") right center / min(44vw, 500px) auto no-repeat,
+          var(--soft);
+      }
+
+      .hero-inner {
+        min-height: 520px;
+        display: grid;
+        align-content: center;
+        padding: 70px 0 60px;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--accent-dark);
+        font-weight: 900;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(34px, 6vw, 64px);
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 19px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .requirement {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .requirement span {
+        padding: 7px 11px;
+        border: 1px solid rgba(15, 139, 141, 0.28);
+        border-radius: 8px;
+        color: var(--accent-dark);
+        background: rgba(255, 255, 255, 0.78);
+        font-weight: 800;
+      }
+
+      .device-note {
+        padding: 16px 18px;
+        border: 2px solid rgba(159, 29, 29, 0.18);
+        border-left: 6px solid var(--danger);
+        border-radius: 8px;
+        background: #fff8f6;
+      }
+
+      .device-note strong {
+        color: var(--danger);
+      }
+
+      .section { padding: 58px 0; }
+
+      .section-title {
+        max-width: 820px;
+        margin-bottom: 24px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(26px, 4vw, 40px);
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .section-title p,
+      .card p,
+      .notice p,
+      .faq p,
+      .visual-card p {
+        margin: 10px 0 0;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card,
+      .notice,
+      .step,
+      .faq,
+      .visual-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .card,
+      .notice,
+      .faq,
+      .visual-card { padding: 22px; }
+
+      .visual-card,
+      .image-frame {
+        min-width: 0;
+      }
+
+      .card h3,
+      .notice h3,
+      .faq h3,
+      .visual-card h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+      }
+
+      .visual-card img {
+        margin-top: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .image-frame {
+        margin-top: 16px;
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .image-frame img {
+        width: 760px;
+        max-width: 100%;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+      }
+
+      .step {
+        padding: 18px;
+        border-left: 4px solid var(--accent);
+      }
+
+      .step b {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .flow-image {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .video-panel {
+        max-width: 820px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .video-panel p {
+        margin: 0 0 16px;
+        color: var(--muted);
+      }
+
+      ol,
+      ul {
+        margin: 10px 0 0;
+        padding-left: 22px;
+        color: var(--muted);
+      }
+
+      li + li { margin-top: 6px; }
+
+      code {
+        padding: 2px 6px;
+        border-radius: 6px;
+        background: #eef2f1;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      }
+
+      .band {
+        border-block: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .notice { background: var(--warm); }
+
+      .notice.danger {
+        color: var(--danger);
+        background: var(--danger-soft);
+      }
+
+      .notice.danger p,
+      .notice.danger ul { color: #7a2b2b; }
+
+      .notice a {
+        font-weight: 900;
+      }
+
+      .faq-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .quick-answer {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .quick-answer div {
+        padding: 14px;
+        border: 1px solid rgba(15, 139, 141, 0.22);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 26px 0;
+        color: var(--muted);
+      }
+
+      @media (max-width: 860px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 12px 0;
+        }
+
+        .hero {
+          background:
+            linear-gradient(180deg, rgba(238, 246, 243, 0.98) 0%, rgba(238, 246, 243, 0.96) 100%),
+            url("/assets/2link-product-preview.png") center bottom / min(88vw, 440px) auto no-repeat,
+            var(--soft);
+        }
+
+        .hero-inner {
+          min-height: auto;
+          padding: 48px 0 360px;
+        }
+
+        .grid,
+        .steps {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .nav,
+        .section,
+        .hero-inner {
+          width: min(100% - 22px, 1120px);
+        }
+
+        .nav-links,
+        .actions {
+          width: 100%;
+        }
+
+        .button,
+        .nav-links a {
+          flex: 1 1 auto;
+        }
+
+        .hero-inner { padding-bottom: 300px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="/index">
+          <span class="logo">AI</span>
+          <span>2link</span>
+        </a>
+        <div class="nav-links"></div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <p class="eyebrow">Doubao Migration Extension</p>
+          <h1>把豆包聊天记录迁移到 2link</h1>
+          <p class="lead">请务必使用电脑浏览器操作。在电脑上的 Edge 或 Chrome 已登录豆包后，安装 2link 豆包迁移助手，进入豆包聊天页点击一次同步，聊天记录会写入你自己的 2link 账号数据库。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="device-note" style="margin-bottom: 16px;">
+          <strong>设备要求：</strong>必须使用电脑浏览器。Windows / Mac 电脑的 Edge 或 Chrome 都可以使用；iPad、手机浏览器不能安装这个迁移插件。
+        </div>
+        <div class="notice danger">
+          <h3>使用前请先确认资格</h3>
+          <p>豆包聊天迁移属于 2link 授权用户功能。你需要先注册或登录 2link 账号，并在账号里绑定已经购买的授权码；没有绑定授权码的账号不能使用同步接口。</p>
+          <p>授权码获取：<a href="https://m.tb.cn/h.RzEnM7m?tk=LR94gLXYH0b" target="_blank" rel="noopener noreferrer">闲鱼购买授权码</a>，或加入客服 QQ 群 761894545 咨询。</p>
+        </div>
+      </section>
+
+      <section class="section" id="video-guide">
+        <div class="section-title">
+          <h2>视频教程</h2>
+          <p>如果不想看长图文，可以先看 B 站演示，了解豆包智能体聊天记录导出和迁移的大致流程。</p>
+        </div>
+        <div class="video-panel">
+          <p>为了保证打开速度，视频教程放在 B 站播放。点击下方按钮会在新页面打开。</p>
+          <a class="button" href="https://www.bilibili.com/video/BV1QuNn6sEGE/" target="_blank" rel="noopener noreferrer">打开 B 站视频教程</a>
+        </div>
+      </section>
+
+      <section class="section band" id="install">
+        <div class="section-title">
+          <h2>安装插件</h2>
+          <p>当前是内测安装包，请在电脑浏览器里下载 zip，解压后手动加载一次。iPad 和手机浏览器不能安装这个插件。正式上架 Edge Add-ons 或 Chrome Web Store 后，会改成商店一键安装。</p>
+        </div>
+        <div class="actions">
+          <a class="button" href="/assets/downloads/doubao-companion-migrator-edge.zip?v=1023" download>下载 Edge 插件包</a>
+          <a class="button secondary" href="/assets/downloads/doubao-companion-migrator-chrome.zip?v=1023" download>下载 Chrome 插件包</a>
+        </div>
+
+        <div class="quick-answer">
+          <div><strong>Edge 开发人员模式在哪里？</strong> 打开 <code>edge://extensions</code> 后，看页面左侧栏下方，“开发人员模式”开关在那里；窗口较窄时可能在扩展页面的侧栏或菜单里。</div>
+          <div><strong>Chrome 开发者模式在哪里？</strong> 打开 <code>chrome://extensions</code> 后，看页面右上角，“开发者模式”开关在那里。</div>
+          <div><strong>加载后没看到插件图标？</strong> 点击浏览器右上角的拼图图标，找到“豆包迁移助手”，点固定/显示到工具栏。即使图标藏起来，打开豆包聊天页后也会出现“同步到 2link”按钮。</div>
+          <div><strong>为什么之前只同步了后半段？</strong> 豆包聊天页会虚拟滚动，页面里经常只保留当前附近的消息。新版插件点击同步时会自动向上滚动采集历史，再按豆包消息 ID 排序后上传。</div>
+        </div>
+      </section>
+
+      <section class="section" id="pictures">
+        <div class="section-title">
+          <h2>图文安装教程</h2>
+          <p>下面的图按真实操作入口画好了。Edge 可以从右上角三点菜单进入“管理扩展”，也可以直接在地址栏打开扩展页。</p>
+        </div>
+
+        <div class="grid">
+          <article class="visual-card">
+            <h3>Edge：从菜单进入管理扩展</h3>
+            <p>先点右上角三个点，选择“扩展”，再点“管理扩展”。进入扩展页后打开左侧栏下方“开发人员模式”。</p>
+            <div class="image-frame">
+              <img src="/assets/doubao-migrator/edge-menu-entry.svg" alt="Edge 右上角菜单进入扩展管理页面示意图" />
+            </div>
+            <div class="image-frame">
+              <img src="/assets/doubao-migrator/edge-developer-mode.svg" alt="Edge 扩展页面开发人员模式和加载解压缩扩展按钮位置示意图" />
+            </div>
+            <ol>
+              <li>下载 Edge 插件包，把 zip 解压到固定文件夹。</li>
+              <li>点右上角三个点，进入“扩展” → “管理扩展”；也可以直接打开 <code>edge://extensions</code>。</li>
+              <li>打开左侧栏下方“开发人员模式”。如果左侧栏收起，先点页面左上角菜单展开。</li>
+              <li>点击“加载解压缩的扩展”。</li>
+              <li>选择刚才解压出来的插件文件夹。</li>
+            </ol>
+          </article>
+
+          <article class="visual-card">
+            <h3>Chrome：右上角打开开发者模式</h3>
+            <p>地址栏输入 <code>chrome://extensions</code>，打开右上角“开发者模式”，再点“加载已解压的扩展程序”。</p>
+            <div class="image-frame">
+              <img src="/assets/doubao-migrator/chrome-developer-mode.svg" alt="Chrome 扩展程序页面开发者模式和加载已解压扩展按钮位置示意图" />
+            </div>
+            <ol>
+              <li>下载 Chrome 插件包，把 zip 解压到固定文件夹。</li>
+              <li>打开 <code>chrome://extensions</code>。</li>
+              <li>打开右上角“开发者模式”。</li>
+              <li>点击“加载已解压的扩展程序”。</li>
+              <li>选择刚才解压出来的插件文件夹。</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="section band" id="guide">
+        <div class="section-title">
+          <h2>迁移流程图</h2>
+          <p>这个流程不需要复制 Token，也不需要输入豆包账号密码。插件只在你已经登录的浏览器页面里读取当前豆包聊天内容，然后上传到你的 2link 账号。</p>
+        </div>
+        <img class="flow-image" src="/assets/doubao-migrator/doubao-migration-flow.svg" alt="豆包聊天迁移到 2link 的流程图" />
+
+        <div class="steps" style="margin-top: 18px;">
+          <div class="step">
+            <b>1. 登录 2link</b>
+            <p>打开 2link，登录账号，并确认已经绑定购买过的授权码。</p>
+          </div>
+          <div class="step">
+            <b>2. 连接账号</b>
+            <p>点击浏览器里的插件图标，再点“连接 2link 账号”。</p>
+          </div>
+          <div class="step">
+            <b>3. 打开豆包聊天</b>
+            <p>在同一个浏览器里登录豆包，进入要迁移的聊天页面。</p>
+          </div>
+          <div class="step">
+            <b>4. 一键同步</b>
+            <p>点击豆包页面上的“同步到 2link”，等待成功提示。</p>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top: 18px;">
+          <article class="card">
+            <h3>迁移成功后在哪里看？</h3>
+            <p>聊天记录会先进入你的 2link 账号数据库。后续可以在 2link 里继续导出数据、做云备份、或恢复到自己的 2link 数据里。</p>
+          </article>
+          <article class="card">
+            <h3>可以迁移全部历史吗？</h3>
+            <p>新版插件会在同步时自动向上滚动采集历史消息，并按豆包消息 ID 排序。极长对话如果豆包加载很慢，可以先手动向上滚动一遍，再点击同步。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <h2>常见问题</h2>
+          <p>如果同步失败，先按下面几项排查。</p>
+        </div>
+        <div class="faq-list">
+          <article class="faq">
+            <h3>提示需要登录或绑定授权码</h3>
+            <p>请先打开 2link，登录账号，在账号与授权区域绑定已购买的授权码。绑定后回到插件里重新点击“连接 2link 账号”。</p>
+          </article>
+          <article class="faq">
+            <h3>豆包页面没有“同步到 2link”按钮</h3>
+            <p>确认当前页面是豆包聊天详情页，并刷新一次页面。如果仍然没有出现，请检查扩展管理页里“豆包迁移助手”是否启用；浏览器工具栏没看到图标时，先点右上角拼图图标查看已安装扩展。</p>
+          </article>
+          <article class="faq">
+            <h3>同步后消息数量太少</h3>
+            <p>豆包网页通常只渲染当前已加载的内容。请先向上滚动加载更多历史消息，再点击同步。</p>
+          </article>
+          <article class="faq">
+            <h3>隐私和账号安全</h3>
+            <p>插件不会要求你输入豆包账号密码，也不会把豆包 Cookie 保存到 2link。同步时会把当前聊天页识别出的消息内容上传到 2link 服务器，用于写入你的账号数据库。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="section" style="padding: 0;">
+        <p>© 2026 2link · 豆包聊天迁移助手 · <a href="/index">官网首页</a> · <a href="/tutorial">教程</a></p>
+      </div>
+    </footer>
+  </body>
+</html>

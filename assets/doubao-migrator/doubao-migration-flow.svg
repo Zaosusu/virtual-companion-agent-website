@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="360" viewBox="0 0 1120 360" role="img" aria-labelledby="title desc">
+  <title id="title">豆包聊天迁移到 2link 流程图</title>
+  <desc id="desc">用户登录并绑定授权码，安装插件，连接账号，打开豆包聊天页，同步到 2link 数据库。</desc>
+  <rect width="1120" height="360" rx="24" fill="#f8faf8"/>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#0f8b8d"/>
+    </marker>
+  </defs>
+  <g font-family="Microsoft YaHei, Arial, sans-serif">
+    <text x="50" y="58" font-size="30" font-weight="700" fill="#1f2528">豆包聊天迁移流程</text>
+    <text x="50" y="88" font-size="17" fill="#627174">先确认账号资格，再安装插件，最后在豆包聊天页点击同步。</text>
+
+    <g transform="translate(50 135)">
+      <rect width="170" height="116" rx="14" fill="#ffffff" stroke="#d5e3de" stroke-width="2"/>
+      <circle cx="34" cy="34" r="18" fill="#dff3ec"/>
+      <text x="28" y="41" font-size="20" font-weight="700" fill="#096466">1</text>
+      <text x="58" y="38" font-size="20" font-weight="700" fill="#1f2528">登录 2link</text>
+      <text x="24" y="76" font-size="16" fill="#627174">绑定已购买</text>
+      <text x="24" y="99" font-size="16" fill="#627174">授权码</text>
+    </g>
+    <line x1="235" y1="193" x2="310" y2="193" stroke="#0f8b8d" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(325 135)">
+      <rect width="170" height="116" rx="14" fill="#ffffff" stroke="#d5e3de" stroke-width="2"/>
+      <circle cx="34" cy="34" r="18" fill="#dff3ec"/>
+      <text x="28" y="41" font-size="20" font-weight="700" fill="#096466">2</text>
+      <text x="58" y="38" font-size="20" font-weight="700" fill="#1f2528">安装插件</text>
+      <text x="24" y="76" font-size="16" fill="#627174">Chrome / Edge</text>
+      <text x="24" y="99" font-size="16" fill="#627174">加载扩展</text>
+    </g>
+    <line x1="510" y1="193" x2="585" y2="193" stroke="#0f8b8d" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(600 135)">
+      <rect width="170" height="116" rx="14" fill="#ffffff" stroke="#d5e3de" stroke-width="2"/>
+      <circle cx="34" cy="34" r="18" fill="#dff3ec"/>
+      <text x="28" y="41" font-size="20" font-weight="700" fill="#096466">3</text>
+      <text x="58" y="38" font-size="20" font-weight="700" fill="#1f2528">连接账号</text>
+      <text x="24" y="76" font-size="16" fill="#627174">插件自动读取</text>
+      <text x="24" y="99" font-size="16" fill="#627174">2link 登录态</text>
+    </g>
+    <line x1="785" y1="193" x2="860" y2="193" stroke="#0f8b8d" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(875 135)">
+      <rect width="195" height="116" rx="14" fill="#ffffff" stroke="#d5e3de" stroke-width="2"/>
+      <circle cx="34" cy="34" r="18" fill="#dff3ec"/>
+      <text x="28" y="41" font-size="20" font-weight="700" fill="#096466">4</text>
+      <text x="58" y="38" font-size="20" font-weight="700" fill="#1f2528">同步豆包聊天</text>
+      <text x="24" y="76" font-size="16" fill="#627174">打开豆包聊天页</text>
+      <text x="24" y="99" font-size="16" fill="#627174">点“同步到 2link”</text>
+    </g>
+
+    <rect x="285" y="292" width="550" height="42" rx="10" fill="#fff7e8" stroke="#ead9b8"/>
+    <text x="312" y="319" font-size="17" font-weight="700" fill="#7a5b19">结果：聊天内容写入当前 2link 账号数据库，可用于后续导出和恢复。</text>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-labelledby="title desc">
+  <title id="title">Chrome 开发者模式位置示意图</title>
+  <desc id="desc">Chrome 扩展程序页面右上角开发者模式开关，以及加载已解压扩展按钮的位置。</desc>
+  <rect width="980" height="560" rx="24" fill="#f6faf8"/>
+  <rect x="44" y="50" width="892" height="460" rx="18" fill="#ffffff" stroke="#d5e3de" stroke-width="2"/>
+  <rect x="44" y="50" width="892" height="64" rx="18" fill="#eef6f3"/>
+  <circle cx="78" cy="82" r="8" fill="#ef6f6c"/>
+  <circle cx="104" cy="82" r="8" fill="#f6c85f"/>
+  <circle cx="130" cy="82" r="8" fill="#5fbd7b"/>
+  <rect x="168" y="67" width="360" height="30" rx="15" fill="#ffffff" stroke="#d5e3de"/>
+  <text x="190" y="88" font-family="Microsoft YaHei, Arial, sans-serif" font-size="18" fill="#627174">chrome://extensions</text>
+  <text x="82" y="158" font-family="Microsoft YaHei, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2528">扩展程序</text>
+  <rect x="704" y="130" width="172" height="48" rx="24" fill="#dff3ec" stroke="#0f8b8d" stroke-width="2"/>
+  <circle cx="850" cy="154" r="17" fill="#0f8b8d"/>
+  <text x="724" y="162" font-family="Microsoft YaHei, Arial, sans-serif" font-size="19" font-weight="700" fill="#096466">开发者模式</text>
+  <path d="M790 205 L790 180" stroke="#d94841" stroke-width="4" stroke-linecap="round"/>
+  <path d="M790 205 L765 190" stroke="#d94841" stroke-width="4" stroke-linecap="round"/>
+  <path d="M790 205 L815 190" stroke="#d94841" stroke-width="4" stroke-linecap="round"/>
+  <rect x="620" y="218" width="286" height="70" rx="12" fill="#fff1f0" stroke="#d94841" stroke-width="2"/>
+  <text x="648" y="247" font-family="Microsoft YaHei, Arial, sans-serif" font-size="20" font-weight="700" fill="#9f1d1d">第一步</text>
+  <text x="648" y="274" font-family="Microsoft YaHei, Arial, sans-serif" font-size="18" fill="#7a2b2b">打开右上角“开发者模式”</text>
+  <rect x="82" y="222" width="210" height="46" rx="8" fill="#0f8b8d"/>
+  <text x="109" y="252" font-family="Microsoft YaHei, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">加载已解压的扩展程序</text>
+  <path d="M188 328 L188 270" stroke="#d94841" stroke-width="4" stroke-linecap="round"/>
+  <path d="M188 328 L164 309" stroke="#d94841" stroke-width="4" stroke-linecap="round"/>
+  <path d="M188 328 L212 309" stroke="#d94841" stroke-width="4" stroke-linecap="round"/>
+  <rect x="82" y="342" width="330" height="74" rx="12" fill="#fff1f0" stroke="#d94841" stroke-width="2"/>
+  <text x="110" y="372" font-family="Microsoft YaHei, Arial, sans-serif" font-size="20" font-weight="700" fill="#9f1d1d">第二步</text>
+  <text x="110" y="400" font-family="Microsoft YaHei, Arial, sans-serif" font-size="18" fill="#7a2b2b">点击“加载已解压的扩展程序”</text>
+  <rect x="82" y="440" width="814" height="36" rx="8" fill="#eef2f1"/>
+  <text x="102" y="464" font-family="Microsoft YaHei, Arial, sans-serif" font-size="17" fill="#627174">选择刚才解压出来的插件文件夹，不要选择 zip 文件本身。</text>
+</svg>
