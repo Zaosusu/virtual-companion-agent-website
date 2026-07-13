@@ -424,7 +424,7 @@
         <div class="hero-inner">
           <p class="eyebrow">Doubao Migration Extension</p>
           <h1>把豆包聊天记录迁移到 2link</h1>
-          <p class="lead">请务必使用电脑浏览器操作。在电脑上的 Edge 或 Chrome 已登录豆包后，安装 2link 豆包迁移助手，进入豆包聊天页点击一次同步，聊天记录会写入你自己的 2link 账号数据库。</p>
+          <p class="lead">请使用电脑上的 Edge 或 Chrome。安装插件后，在豆包聊天页右上角点击“迁移当前对话”，推荐先完整导出到本地，再到 2link 上传本地迁移数据。</p>
         </div>
       </section>
 
@@ -456,14 +456,14 @@
           <p>当前是内测安装包，请在电脑浏览器里下载 zip，解压后手动加载一次。iPad 和手机浏览器不能安装这个插件。正式上架 Edge Add-ons 或 Chrome Web Store 后，会改成商店一键安装。</p>
         </div>
         <div class="actions">
-          <a class="button" href="/assets/downloads/doubao-companion-migrator-edge.zip?v=1100" download>下载 Edge 插件包</a>
-          <a class="button secondary" href="/assets/downloads/doubao-companion-migrator-chrome.zip?v=1100" download>下载 Chrome 插件包</a>
+          <a class="button" href="/assets/downloads/doubao-companion-migrator-edge.zip?v=1130" download>下载 Edge 插件包</a>
+          <a class="button secondary" href="/assets/downloads/doubao-companion-migrator-chrome.zip?v=1130" download>下载 Chrome 插件包</a>
         </div>
 
         <div class="quick-answer">
           <div><strong>Edge 开发人员模式在哪里？</strong> 打开 <code>edge://extensions</code> 后，看页面左侧栏下方，“开发人员模式”开关在那里；窗口较窄时可能在扩展页面的侧栏或菜单里。</div>
           <div><strong>Chrome 开发者模式在哪里？</strong> 打开 <code>chrome://extensions</code> 后，看页面右上角，“开发者模式”开关在那里。</div>
-          <div><strong>加载后没看到插件图标？</strong> 点击浏览器右上角的拼图图标，找到“豆包迁移助手”，点固定/显示到工具栏。即使图标藏起来，打开豆包聊天页后也会出现“同步到 2link”按钮。</div>
+          <div><strong>加载后去哪里操作？</strong> 打开一条豆包聊天，在页面右上角找到“迁移当前对话”。如果没看到插件图标，可点击浏览器右上角的拼图图标，将“豆包迁移助手”固定到工具栏。</div>
           <div><strong>为什么之前只同步了后半段？</strong> 豆包聊天页会虚拟滚动，页面里经常只保留当前附近的消息。新版插件点击同步时会自动向上滚动采集历史，再按豆包消息 ID 排序后上传。</div>
         </div>
       </section>
@@ -513,9 +513,26 @@
       <section class="section band" id="guide">
         <div class="section-title">
           <h2>迁移流程图</h2>
-          <p>这个流程不需要复制 Token，也不需要输入豆包账号密码。插件只在你已经登录的浏览器页面里读取当前豆包聊天内容，然后上传到你的 2link 账号。</p>
+          <p>这个流程不需要复制 Token，也不需要输入豆包账号密码。推荐先把当前豆包聊天完整保存到电脑，再由你主动上传到 2link。</p>
         </div>
         <img class="flow-image" src="/assets/doubao-migrator/doubao-migration-flow.svg" alt="豆包聊天迁移到 2link 的流程图" />
+
+        <div class="grid" style="margin-top: 18px;">
+          <article class="visual-card">
+            <h3>第一步：在豆包完整导出到本地</h3>
+            <p>进入要迁移的豆包聊天，在页面右上角点击“迁移当前对话”，扫描完成后优先选择“完整导出到本地”。</p>
+            <div class="image-frame">
+              <img src="/assets/doubao-migrator/doubao-migrate-entry.webp" alt="豆包聊天页右上角迁移当前对话按钮和迁移方式弹窗" />
+            </div>
+          </article>
+          <article class="visual-card">
+            <h3>第二步：在 2link 上传本地迁移数据</h3>
+            <p>打开 2link，找到“已同步的外部智能体”，点击“上传本地迁移数据”，选择刚才导出的文件夹。</p>
+            <div class="image-frame">
+              <img src="/assets/doubao-migrator/2link-upload-local.webp" alt="2link 已同步的外部智能体区域上传本地迁移数据按钮" />
+            </div>
+          </article>
+        </div>
 
         <div class="steps" style="margin-top: 18px;">
           <div class="step">
@@ -531,8 +548,16 @@
             <p>在同一个浏览器里登录豆包，进入要迁移的聊天页面。</p>
           </div>
           <div class="step">
-            <b>4. 一键同步</b>
-            <p>点击豆包页面上的“同步到 2link”，等待成功提示。</p>
+            <b>4. 完整导出到本地</b>
+            <p>点击“迁移当前对话”，优先选择完整导出，保存文字、图片和视频。</p>
+          </div>
+          <div class="step">
+            <b>5. 上传到 2link</b>
+            <p>在 2link 的“已同步的外部智能体”区域点击“上传本地迁移数据”。</p>
+          </div>
+          <div class="step">
+            <b>6. 少量文字可直接同步</b>
+            <p>迁移弹窗第三项是“直接同步到 2link”，仅适用于不超过 5,000 条且不超过 10 MB 的纯文字数据；超出后按钮会自动停用。</p>
           </div>
         </div>
 
@@ -559,7 +584,7 @@
             <p>请先打开 2link，登录账号，在账号与授权区域绑定已购买的授权码。绑定后回到插件里重新点击“连接 2link 账号”。</p>
           </article>
           <article class="faq">
-            <h3>豆包页面没有“同步到 2link”按钮</h3>
+            <h3>豆包页面没有“迁移当前对话”按钮</h3>
             <p>确认当前页面是豆包聊天详情页，并刷新一次页面。如果仍然没有出现，请检查扩展管理页里“豆包迁移助手”是否启用；浏览器工具栏没看到图标时，先点右上角拼图图标查看已安装扩展。</p>
           </article>
           <article class="faq">
