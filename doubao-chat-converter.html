@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' file:; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>豆包聊天文档转换器 - 2link</title>
+    <meta name="description" content="在浏览器本地把豆包迁移助手导出的 JSON、NDJSON 聊天记录转换成 TXT、DOCX 或 Markdown 文档。" />
+    <link rel="canonical" href="https://2link.walkingxiuxian.cn/doubao-chat-converter" />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f7f6;
+        --surface: #ffffff;
+        --ink: #202729;
+        --muted: #647174;
+        --line: #d9e2de;
+        --accent: #087f80;
+        --accent-dark: #075f60;
+        --accent-soft: #e9f5f2;
+        --warm: #c65336;
+        --danger: #a33232;
+        --shadow: 0 12px 34px rgba(31, 48, 45, 0.08);
+        font-family: Inter, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      button, input { font: inherit; }
+      button { cursor: pointer; }
+      a { color: inherit; }
+
+      .site-header {
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.94);
+      }
+      .nav,
+      .workspace {
+        width: min(1080px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+      .nav {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 900;
+      }
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+      }
+      .nav-links { display: flex; gap: 16px; color: var(--muted); }
+      .offline-mode .nav-links { display: none; }
+      .nav-links a { text-decoration: none; font-weight: 700; }
+
+      .workspace { padding: 40px 0 64px; }
+      .tool-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 22px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 32px;
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+      .tool-header p { margin: 8px 0 0; color: var(--muted); }
+      .privacy {
+        flex: 0 0 auto;
+        color: var(--accent-dark);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .tool-shell {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+      .source-panel { padding: 24px; border-bottom: 1px solid var(--line); }
+      .drop-zone {
+        min-height: 180px;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        border: 2px dashed #a9bbb4;
+        border-radius: 8px;
+        text-align: center;
+        background: #fbfdfc;
+        transition: border-color 150ms ease, background 150ms ease;
+      }
+      .drop-zone.dragging { border-color: var(--accent); background: var(--accent-soft); }
+      .drop-zone strong { display: block; font-size: 18px; }
+      .drop-zone p { margin: 6px 0 18px; color: var(--muted); }
+      .file-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+      .button {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+        font-weight: 800;
+      }
+      .button:hover { background: var(--accent-dark); }
+      .button.secondary { color: var(--accent-dark); background: #fff; }
+      .button.secondary:hover { background: var(--accent-soft); }
+      .button:disabled { cursor: not-allowed; opacity: 0.45; }
+
+      .file-summary {
+        display: none;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        min-height: 96px;
+      }
+      .file-summary.visible { display: grid; }
+      .file-name { margin: 0; font-size: 19px; word-break: break-word; }
+      .file-meta { margin: 4px 0 0; color: var(--muted); }
+      .summary-actions { display: flex; gap: 10px; }
+
+      .settings-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+        gap: 28px;
+        padding: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .settings-panel h2,
+      .preview-panel h2 { margin: 0 0 14px; font-size: 18px; letter-spacing: 0; }
+      .format-control {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .format-control label { position: relative; }
+      .format-control input { position: absolute; opacity: 0; }
+      .format-option {
+        min-height: 66px;
+        display: grid;
+        align-content: center;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .format-option b { font-size: 15px; }
+      .format-option span { color: var(--muted); font-size: 12px; }
+      .format-control input:checked + .format-option {
+        border-color: var(--accent);
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+      }
+      .format-control input:focus-visible + .format-option { outline: 3px solid rgba(8, 127, 128, 0.22); }
+      .options { display: grid; gap: 10px; align-content: start; }
+      .title-field { display: grid; gap: 6px; margin-bottom: 14px; color: #3f4b4d; font-weight: 800; }
+      .title-field input {
+        width: 100%;
+        min-height: 42px;
+        padding: 8px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: #fff;
+      }
+      .title-field input:focus { outline: 3px solid rgba(8, 127, 128, 0.16); border-color: var(--accent); }
+      .check-row { display: flex; align-items: center; gap: 9px; color: #3f4b4d; }
+      .check-row input { width: 17px; height: 17px; accent-color: var(--accent); }
+
+      .preview-panel { padding: 24px; }
+      .preview-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .message-count { color: var(--muted); font-size: 14px; }
+      .preview-list {
+        max-height: 420px;
+        overflow: auto;
+        border-top: 1px solid var(--line);
+      }
+      .preview-empty { padding: 38px 0; color: var(--muted); text-align: center; }
+      .preview-message {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 14px;
+        padding: 15px 0;
+        border-bottom: 1px solid #edf1ef;
+      }
+      .speaker { color: var(--accent-dark); font-weight: 900; }
+      .speaker.system { color: var(--warm); }
+      .message-text { margin: 0; white-space: pre-wrap; word-break: break-word; }
+
+      .action-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 24px;
+        border-top: 1px solid var(--line);
+        background: #fbfcfb;
+      }
+      .status { min-height: 24px; color: var(--muted); }
+      .status.error { color: var(--danger); }
+      .status.success { color: var(--accent-dark); }
+
+      @media (max-width: 760px) {
+        .nav { align-items: flex-start; padding: 12px 0; }
+        .nav-links { flex-direction: column; align-items: flex-end; gap: 4px; }
+        .tool-header { align-items: flex-start; flex-direction: column; }
+        .settings-panel { grid-template-columns: 1fr; }
+        .format-control { grid-template-columns: 1fr; }
+        .file-summary { grid-template-columns: 1fr; }
+        .summary-actions { flex-wrap: wrap; }
+        .preview-message { grid-template-columns: 56px minmax(0, 1fr); }
+        .action-bar { align-items: stretch; flex-direction: column; }
+        .action-bar .button { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="./index.html">
+          <span class="logo">AI</span>
+          <span>2link</span>
+        </a>
+        <div class="nav-links">
+          <a id="offlineDownloadLink" href="./assets/downloads/doubao-chat-converter-offline.zip" download>下载离线版</a>
+          <a href="./doubao-migrator.html">迁移助手</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="workspace">
+      <div class="tool-header">
+        <div>
+          <h1>豆包聊天文档转换器</h1>
+          <p>将迁移助手导出的聊天文件整理为可阅读文档。</p>
+        </div>
+        <div class="privacy">纯本地处理 · 不上传文件</div>
+      </div>
+
+      <section class="tool-shell" aria-label="聊天文档转换工具">
+        <div class="source-panel">
+          <div class="drop-zone" id="dropZone">
+            <div>
+              <strong>选择或拖入聊天备份文件</strong>
+              <p>JSON、NDJSON、messages.ndjson</p>
+              <button class="button" id="chooseFileButton" type="button">选择文件</button>
+              <input class="file-input" id="fileInput" type="file" />
+            </div>
+          </div>
+
+          <div class="file-summary" id="fileSummary">
+            <div>
+              <h2 class="file-name" id="fileName"></h2>
+              <p class="file-meta" id="fileMeta"></p>
+            </div>
+            <div class="summary-actions">
+              <button class="button secondary" id="replaceFileButton" type="button">更换文件</button>
+              <button class="button secondary" id="clearFileButton" type="button">清除</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-panel">
+          <div>
+            <h2>输出格式</h2>
+            <div class="format-control" role="radiogroup" aria-label="输出格式">
+              <label>
+                <input type="radio" name="outputFormat" value="txt" checked />
+                <span class="format-option"><b>TXT</b><span>纯文本，通用兼容</span></span>
+              </label>
+              <label>
+                <input type="radio" name="outputFormat" value="docx" />
+                <span class="format-option"><b>Word</b><span>标准 DOCX 文档</span></span>
+              </label>
+              <label>
+                <input type="radio" name="outputFormat" value="md" />
+                <span class="format-option"><b>Markdown</b><span>适合编辑和归档</span></span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <h2>文档内容</h2>
+            <label class="title-field">文档标题<input id="documentTitle" type="text" maxlength="80" value="豆包聊天记录" /></label>
+            <div class="options">
+              <label class="check-row"><input id="includeIndex" type="checkbox" checked />显示消息序号</label>
+              <label class="check-row"><input id="includeTime" type="checkbox" />显示消息时间</label>
+              <label class="check-row"><input id="includeAssets" type="checkbox" checked />保留图片、视频和语音链接</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <div class="preview-head">
+            <h2>内容预览</h2>
+            <span class="message-count" id="messageCount">尚未选择文件</span>
+          </div>
+          <div class="preview-list" id="previewList">
+            <div class="preview-empty">选择文件后显示前 20 条消息</div>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+          <button class="button" id="downloadButton" type="button" disabled>转换并下载</button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      window.__converterErrors = [];
+      if (window.location.protocol === "file:") document.documentElement.classList.add("offline-mode");
+      window.addEventListener("error", (event) => {
+        window.__converterErrors.push(String(event.message || event.error || "脚本加载失败"));
+      });
+    </script>
+    <script src="./assets/doubao-chat-converter.js?v=20260714-3"></script>
+  </body>
+</html>
